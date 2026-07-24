@@ -21,14 +21,14 @@
         <div class="status-dot <%= statusClass %>"></div>
       </div>
       <h1 data-i18n="dashboardTitle">J.A.R.V.I.S. Dashboard</h1>
-      <div class="version">Versione Bot v<%= version %></div>
+      <div class="version"><span data-i18n="botVersionPrefix">Versione Bot v</span><%= version %></div>
     </div>
     
     <div class="grid">
       <div class="card">
         <div class="card-label" data-i18n="webServerStatus">Stato Web Server</div>
         <div class="card-value status-text">
-          <span style="color: var(--online)">🟢 Attivo</span>
+          <span style="color: var(--online)" data-i18n="activeStatus">🟢 Attivo</span>
         </div>
       </div>
       <div class="card">
@@ -62,7 +62,7 @@
     </div>
     
     <div class="footer-info">
-      <p>Questo pannello monitora lo stato del bot J.A.R.V.I.S. e la sua connettività in tempo reale verso i server Discord.</p>
+      <p data-i18n="footerInfo">Questo pannello monitora lo stato del bot J.A.R.V.I.S. e la sua connettività in tempo reale verso i server Discord.</p>
       <div class="tech-badges">
         <span class="tech-badge">Node.js <%= nodeVersion %></span>
         <span class="tech-badge">discord.js v<%= discordJsVersion %></span>
