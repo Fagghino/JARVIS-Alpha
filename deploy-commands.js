@@ -48,12 +48,6 @@ async function deployCommands() {
         console.log(`🚀 Registrazione di ${commands.length} comandi Globali su Discord API in corso...`);
         await rest.put(Routes.applicationCommands(clientId), { body: commands });
         console.log(`✅ ${commands.length} comandi registrati a livello GLOBALE con successo!`);
-
-        // Registra anche a livello di singolo server se serverId è configurato (per propagazione istantanea nel server principale)
-        if (serverId) {
-            await rest.put(Routes.applicationGuildCommands(clientId, serverId), { body: commands });
-            console.log(`✅ Comandi registrati instantaneamente anche per il server primario [${serverId}].`);
-        }
     } catch (error) {
         console.error('❌ Errore durante la registrazione dei comandi:', error);
     }
