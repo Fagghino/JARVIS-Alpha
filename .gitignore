@@ -1,0 +1,101 @@
+# ==============================================================================
+# JARVIS Discord Bot - Git Ignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# SECRET & CHIAVI DI SICUREZZA (CRITICO - MAI COMMITTARE SU GIT)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+config/.env
+config/*.env
+config/credentials.json
+*.pem
+*.key
+
+# ------------------------------------------------------------------------------
+# Dipendenze Node.js e Package Manager
+# ------------------------------------------------------------------------------
+node_modules/
+jspm_packages/
+web_stage/
+
+# Log di debug di vari package manager
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------------------------------------------------------
+# Log dell'applicazione
+# ------------------------------------------------------------------------------
+logs/
+*.log
+*.log.*
+
+# ------------------------------------------------------------------------------
+# File del Sistema Operativo
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.ActiveGMSpool
+.Trash-*
+.TemporaryItems
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ------------------------------------------------------------------------------
+# IDE, Editor e Ambienti di Sviluppo
+# ------------------------------------------------------------------------------
+.vscode/
+.vs/
+*.code-workspace
+.history/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# ------------------------------------------------------------------------------
+# File Temporanei e Cache
+# ------------------------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
+dist/
+build/
+.cache/
+.eslintcache
+.prettiercache
+
+# ------------------------------------------------------------------------------
+# Documentazione (Mantiene solo README e CHANGELOG principali)
+# ------------------------------------------------------------------------------
+Docs/*
+!README.*.md
+!CHANGELOG.*.md
+!Docs/assets/
