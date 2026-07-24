@@ -214,7 +214,7 @@ module.exports = (client) => {
     const s = Math.floor(seconds % 60);
     const uptimeText = `${d > 0 ? d + "g " : ""}${h > 0 ? h + "o " : ""}${m > 0 ? m + "m " : ""}${s}s`;
 
-    let discordStatusHtml = '<span style="color: var(--offline)">🔴 Disconnesso</span>';
+    let discordStatusHtml = '<span style="color: var(--offline)" data-i18n="disconnectedStatus">🔴 Disconnesso</span>';
     let statusClass = "inactive";
     let guildsCount = "0";
     let pingText = "N/D";
@@ -223,10 +223,10 @@ module.exports = (client) => {
     if (client && client.user) {
       const isReady = client.ws.status === 0;
       if (isReady) {
-        discordStatusHtml = '<span style="color: var(--online)">🟢 Connesso</span>';
+        discordStatusHtml = '<span style="color: var(--online)" data-i18n="connectedStatus">🟢 Connesso</span>';
         statusClass = "active";
       } else if (client.ws.status === 1 || client.ws.status === 2) {
-        discordStatusHtml = '<span style="color: var(--pending)">🟡 In connessione</span>';
+        discordStatusHtml = '<span style="color: var(--pending)" data-i18n="connectingStatus">🟡 In connessione</span>';
         statusClass = "pending";
       }
 
@@ -278,15 +278,18 @@ module.exports = (client) => {
 
       let isEligible = isMember;
       let lockReason = "";
+      let lockKey = "";
 
       if (!isMember) {
         lockReason = "🔒 Non sei in questo server";
+        lockKey = "lockNotInServer";
       } else if (mode === "settings") {
         const permissions = BigInt(userGuildInfo.permissions);
         const isAdmin = (permissions & BigInt(0x8)) === BigInt(0x8) || (permissions & BigInt(0x20)) === BigInt(0x20) || userGuildInfo.owner;
         if (!isAdmin) {
           isEligible = false;
           lockReason = "🔒 Permessi Admin richiesti";
+          lockKey = "lockNoAdmin";
         }
       }
 
@@ -310,7 +313,7 @@ module.exports = (client) => {
           <div class="guild-card disabled-card">
             <img src="${iconUrl}" alt="${bg.name}" class="guild-icon">
             <div class="guild-name">${bg.name}</div>
-            <div class="lock-badge">${lockReason}</div>
+            <div class="lock-badge" data-i18n="${lockKey}">${lockReason}</div>
           </div>
         `;
       }
