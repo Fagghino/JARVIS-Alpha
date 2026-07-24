@@ -31,7 +31,8 @@ function loadCommandsFromDir(dir, stats = { loaded: [], failed: [], invalid: [] 
     } else if (file.endsWith('.js')) {
       // Carica il comando se è un file .js valido
       try {
-        const command = require(filePath);
+        const absolutePath = path.resolve(filePath);
+        const command = require(absolutePath);
 
         if (command.data && command.execute) {
           command.filePath = filePath;
