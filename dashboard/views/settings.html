@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS Bot - Impostazioni Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/theme-lang.js" defer></script>
+  <style>
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 25px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-sync {
+      background: rgba(0, 230, 118, 0.1);
+      border: 1px solid rgba(0, 230, 118, 0.2);
+      color: #69f0ae;
+      margin-bottom: 20px;
+    }
+    .btn-sync:hover {
+      background: rgba(0, 230, 118, 0.25);
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
+    }
+    .loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 0;
+      color: var(--text-muted);
+      gap: 12px;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 140, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- User Profile Bar -->
+  <%= userBarHtml %>
+
+  <div class="container">
+    <div class="title-bar">
+      <a href="/select-guild" class="btn-back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+      <div>
+        <h1 style="margin-bottom: 0;"><%= guildName %></h1>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Configura canali, ruoli e parametri del server su MongoDB Cloud</p>
+      </div>
+    </div>
+
+    <div id="loading" class="loader">
+      <div class="spinner"></div>
+      <p>Caricamento configurazioni del server Discord...</p>
+    </div>
+
+    <div id="settingsFormContainer" style="display: none;">
+      <!-- Alert Box -->
+      <div id="alertBox" class="alert" style="display: none;"></div>
+
+      <div class="section-title">
+        <span>🔄 Operazioni Rapide</span>
+      </div>
+      <button id="btnSync" class="btn btn-sync" data-i18n="syncMembers">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+        </svg>
+        Sincronizza Membri con MongoDB Cloud
+      </button>
+
+      <form id="settingsForm">
+        <div class="section-title">
+          <span>💬 Canali Testuali</span>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="welcomeChannelId">Canale Benvenuto</label>
+            <select id="welcomeChannelId" name="welcomeChannelId" class="form-control text-channel-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="goodbyeChannelId">Canale Addio</label>
+            <select id="goodbyeChannelId" name="goodbyeChannelId" class="form-control text-channel-select"></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="levelUpChannelId">Canale Notifiche Level Up</label>
+          <select id="levelUpChannelId" name="levelUpChannelId" class="form-control text-channel-select"></select>
+        </div>
+
+        <div class="section-title">
+          <span>🔊 Canali Contatore (Vocali)</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="totalChannelId">Contatore Membri Totali</label>
+          <select id="totalChannelId" name="totalChannelId" class="form-control voice-channel-select"></select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="usersChannelId">Contatore Utenti</label>
+            <select id="usersChannelId" name="usersChannelId" class="form-control voice-channel-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="botsChannelId">Contatore Bot</label>
+            <select id="botsChannelId" name="botsChannelId" class="form-control voice-channel-select"></select>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <span>👥 Ruoli Automatici</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="newMemberRoleId">Ruolo Nuovi Membri</label>
+            <select id="newMemberRoleId" name="newMemberRoleId" class="form-control role-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="botRoleId">Ruolo Bot</label>
+            <select id="botRoleId" name="botRoleId" class="form-control role-select"></select>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <span>🔗 Altre Impostazioni</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inviteLink">Link di Invito del Server</label>
+          <input type="url" id="inviteLink" name="inviteLink" class="form-control" placeholder="https://discord.gg/...">
+        </div>
+
+        <button type="submit" id="btnSave" class="btn" style="margin-top: 20px; width: 100%;" data-i18n="saveSettings">
+          💾 Salva Impostazioni
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const currentGuildId = "<%= guildId %>";
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const loadingEl = document.getElementById("loading");
+      const formContainerEl = document.getElementById("settingsFormContainer");
+      const formEl = document.getElementById("settingsForm");
+      const btnSync = document.getElementById("btnSync");
+      const alertBox = document.getElementById("alertBox");
+
+      const textSelects = document.querySelectorAll(".text-channel-select");
+      const voiceSelects = document.querySelectorAll(".voice-channel-select");
+      const roleSelects = document.querySelectorAll(".role-select");
+
+      try {
+        const response = await fetch(`/api/settings/${currentGuildId}`);
+        if (!response.ok) throw new Error("Impossibile caricare le impostazioni");
+
+        const data = await response.json();
+        const { currentConfig, channels, roles } = data;
+
+        const textChannels = channels.filter(c => c.type === 0);
+        const voiceChannels = channels.filter(c => c.type === 2);
+
+        textSelects.forEach(select => {
+          select.innerHTML = '<option value="">Seleziona canale...</option>';
+          textChannels.forEach(ch => {
+            const opt = document.createElement("option");
+            opt.value = ch.id;
+            opt.textContent = `# ${ch.name}`;
+            select.appendChild(opt);
+          });
+        });
+
+        voiceSelects.forEach(select => {
+          select.innerHTML = '<option value="">Seleziona canale...</option>';
+          voiceChannels.forEach(ch => {
+            const opt = document.createElement("option");
+            opt.value = ch.id;
+            opt.textContent = `🔊 ${ch.name}`;
+            select.appendChild(opt);
+          });
+        });
+
+        roleSelects.forEach(select => {
+          select.innerHTML = '<option value="">Seleziona ruolo...</option>';
+          roles.forEach(role => {
+            const opt = document.createElement("option");
+            opt.value = role.id;
+            opt.textContent = role.name;
+            select.appendChild(opt);
+          });
+        });
+
+        document.getElementById("welcomeChannelId").value = currentConfig.welcomeChannelId || "";
+        document.getElementById("goodbyeChannelId").value = currentConfig.goodbyeChannelId || "";
+        document.getElementById("levelUpChannelId").value = currentConfig.levelUpChannelId || "";
+        document.getElementById("totalChannelId").value = currentConfig.totalChannelId || "";
+        document.getElementById("usersChannelId").value = currentConfig.usersChannelId || "";
+        document.getElementById("botsChannelId").value = currentConfig.botsChannelId || "";
+        document.getElementById("newMemberRoleId").value = currentConfig.newMemberRoleId || "";
+        document.getElementById("botRoleId").value = currentConfig.botRoleId || "";
+        document.getElementById("inviteLink").value = currentConfig.inviteLink || "";
+
+        loadingEl.style.display = "none";
+        formContainerEl.style.display = "block";
+
+      } catch (err) {
+        console.error(err);
+        loadingEl.innerHTML = `<p style="color: var(--offline)">❌ Errore caricamento configurazioni. Verifica che il bot sia online.</p>`;
+      }
+
+      btnSync.addEventListener("click", async () => {
+        btnSync.disabled = true;
+        const originalText = btnSync.innerHTML;
+        btnSync.innerHTML = "Sincronizzazione in corso...";
+        showAlert("Inviato comando di sincronizzazione in corso...", "info");
+
+        try {
+          const res = await fetch(`/api/sync-members/${currentGuildId}`, { method: "POST" });
+          const resData = await res.json();
+          if (res.ok) {
+            showAlert("✅ Sincronizzazione membri completata con successo su MongoDB Cloud!", "success");
+          } else {
+            showAlert(`❌ Errore durante la sincronizzazione: ${resData.message}`, "danger");
+          }
+        } catch (err) {
+          console.error(err);
+          showAlert("❌ Errore di rete durante la sincronizzazione.", "danger");
+        } finally {
+          btnSync.disabled = false;
+          btnSync.innerHTML = originalText;
+        }
+      });
+
+      formEl.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(formEl);
+        const configData = {};
+        formData.forEach((value, key) => {
+          configData[key] = value;
+        });
+
+        const btnSave = document.getElementById("btnSave");
+        btnSave.disabled = true;
+        btnSave.textContent = "Salvataggio...";
+
+        try {
+          const res = await fetch(`/api/settings/${currentGuildId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(configData)
+          });
+
+          const resData = await res.json();
+          if (res.ok) {
+            showAlert("✅ Impostazioni salvate su MongoDB Cloud con successo!", "success");
+          } else {
+            showAlert(`❌ Errore di salvataggio: ${resData.message}`, "danger");
+          }
+        } catch (err) {
+          console.error(err);
+          showAlert("❌ Errore di rete durante il salvataggio.", "danger");
+        } finally {
+          btnSave.disabled = false;
+          btnSave.textContent = "💾 Salva Impostazioni";
+        }
+      });
+
+      function showAlert(message, type) {
+        alertBox.textContent = message;
+        alertBox.className = `alert alert-${type === "success" ? "success" : type === "info" ? "success" : "danger"}`;
+        alertBox.style.display = "block";
+        if (type !== "info") {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
