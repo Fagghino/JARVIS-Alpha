@@ -1,0 +1,29 @@
+# ==============================================================================
+# JARVIS Discord Bot - Git Attributes Configuration
+# ==============================================================================
+
+# Normalizzazione automatica dei line endings a LF per tutti i file di testo
+* text=auto eol=lf
+
+# Forza line endings a LF (Unix) per i file di codice e configurazione
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+
+# Mantieni CRLF (Windows) per gli script batch
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Tratta esplicitamente i file multimediali e gli archivi come binari
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.tgz binary
+*.pdf binary
