@@ -135,7 +135,9 @@ module.exports = (client) => {
 
   // Middleware Verifica Presenza in almeno un Server gestito dal Bot
   function ensureInAnyBotGuild(req, res, next) {
-    if (!req.session.user) return res.redirect("/");
+    if (!req.session || !req.session.user) {
+      return next();
+    }
 
     const userGuilds = req.session.guilds || [];
     const botGuildIds = Array.from(client.guilds.cache.keys());
